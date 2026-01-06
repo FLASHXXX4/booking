@@ -18,12 +18,17 @@ class Reservation extends Model
         'guests',
         'total_price',
         'status',
+        'payment_status',
+        'payment_intent_id',
+        'payment_method',
+        'paid_at',
     ];
 
     protected $casts = [
         'check_in' => 'date',
         'check_out' => 'date',
         'total_price' => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
 
     public function user(): BelongsTo

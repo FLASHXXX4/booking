@@ -29,13 +29,23 @@
                                         <span>{{ $reservation->hotel->city }}</span>
                                     </div>
                                 </div>
-                                <span class="px-4 py-2 rounded-full text-sm font-semibold
-                                    @if($reservation->status === 'pending') bg-yellow-100 text-yellow-800 border border-yellow-200
-                                    @elseif($reservation->status === 'confirmed') bg-green-100 text-green-800 border border-green-200
-                                    @else bg-red-100 text-red-800 border border-red-200
-                                    @endif">
-                                    {{ ucfirst($reservation->status) }}
-                                </span>
+                                <div class="flex flex-col items-end gap-2">
+                                    <span class="px-4 py-2 rounded-full text-sm font-semibold
+                                        @if($reservation->status === 'pending') bg-yellow-100 text-yellow-800 border border-yellow-200
+                                        @elseif($reservation->status === 'confirmed') bg-green-100 text-green-800 border border-green-200
+                                        @else bg-red-100 text-red-800 border border-red-200
+                                        @endif">
+                                        {{ ucfirst($reservation->status) }}
+                                    </span>
+                                    @if($reservation->payment_status)
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold
+                                        @if($reservation->payment_status === 'paid') bg-green-50 text-green-700 border border-green-200
+                                        @else bg-gray-100 text-gray-700 border border-gray-200
+                                        @endif">
+                                        {{ ucfirst($reservation->payment_status) }}
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
                             
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">

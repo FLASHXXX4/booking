@@ -18,6 +18,10 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/my-reservations', [ReservationController::class, 'index'])->name('reservations.index');
     Route::post('/hotels/{hotel}/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    
+    // Payment routes
+    Route::get('/hotels/{hotel}/payment', [ReservationController::class, 'showPayment'])->name('payment.show');
+    Route::post('/hotels/{hotel}/payment', [ReservationController::class, 'processPayment'])->name('payment.process');
 });
 
 // Admin Routes
