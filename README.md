@@ -1,4 +1,4 @@
-# Moroccan Hotels Booking System
+# Booking System
 
 A Laravel-based hotel booking application featuring hotels in Morocco with user authentication, hotel listings, and reservation management.
 

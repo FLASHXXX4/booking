@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }} - Book Your Perfect Stay in Morocco</title>
+        <title>{{ config('app.name', 'Laravel') }} - Book Your Perfect Stay</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,8 +51,8 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Moroccan Hotels</h3>
-                            <p class="text-gray-600 text-sm">Discover the best hotels across Morocco. Book your perfect stay with us.</p>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Booking</h3>
+                            <p class="text-gray-600 text-sm">Discover the best hotels. Book your perfect stay with us.</p>
                         </div>
                         <div>
                             <h4 class="text-sm font-semibold text-gray-900 mb-4">Quick Links</h4>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-600">
-                        <p>&copy; {{ date('Y') }} Moroccan Hotels. All rights reserved.</p>
+                        <p>&copy; {{ date('Y') }} Booking. All rights reserved.</p>
                     </div>
                 </div>
             </footer>

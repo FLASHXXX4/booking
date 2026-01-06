@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }} - Book Your Perfect Stay in Morocco</title>
+        <title>{{ config('app.name', 'Laravel') }} - Book Your Perfect Stay</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
             <div class="w-full sm:max-w-md">
                 <div class="text-center mb-8">
                     <a href="{{ route('home') }}" class="inline-block">
-                        <h1 class="text-3xl font-bold text-gray-900 mb-2">Moroccan Hotels</h1>
+                        <h1 class="text-3xl font-bold text-gray-900 mb-2">Booking</h1>
                         <p class="text-gray-600 text-sm">Book Your Perfect Stay</p>
                     </a>
                 </div>
