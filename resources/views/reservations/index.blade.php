@@ -37,7 +37,7 @@
                                         @endif">
                                         {{ ucfirst($reservation->status) }}
                                     </span>
-                                    @if($reservation->payment_status)
+                                    @if(isset($reservation->payment_status) && $reservation->payment_status)
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold
                                         @if($reservation->payment_status === 'paid') bg-green-50 text-green-700 border border-green-200
                                         @else bg-gray-100 text-gray-700 border border-gray-200

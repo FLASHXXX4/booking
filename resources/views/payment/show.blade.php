@@ -61,8 +61,8 @@
                         
                         <!-- Payment Method Selection -->
                         <div class="space-y-4 mb-6">
-                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 transition">
-                                <input type="radio" name="payment_method" value="card" class="mr-3" checked required>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 transition payment-method-option" data-method="card">
+                                <input type="radio" name="payment_method" value="card" id="payment_card" class="mr-3 payment-radio" checked required>
                                 <div class="flex-1">
                                     <div class="font-semibold text-gray-900">Credit/Debit Card</div>
                                     <div class="text-sm text-gray-500">Pay securely with card</div>
@@ -72,8 +72,8 @@
                                 </svg>
                             </label>
                             
-                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 transition">
-                                <input type="radio" name="payment_method" value="cash" class="mr-3" required>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 transition payment-method-option" data-method="cash">
+                                <input type="radio" name="payment_method" value="cash" id="payment_cash" class="mr-3 payment-radio" required>
                                 <div class="flex-1">
                                     <div class="font-semibold text-gray-900">Pay at Hotel</div>
                                     <div class="text-sm text-gray-500">Pay when you arrive</div>
@@ -88,6 +88,92 @@
                         <p class="text-sm text-red-600 mb-4">{{ $message }}</p>
                         @enderror
 
+                        <!-- Credit Card Form (shown when card is selected) -->
+                        <div id="card-form" class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="text-sm font-semibold text-gray-900 mb-4">Card Information</h3>
+                            
+                            <div class="space-y-4">
+                                <!-- Card Number -->
+                                <div>
+                                    <label for="card_number" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Card Number
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="card_number" 
+                                        name="card_number" 
+                                        placeholder="1234 5678 9012 3456"
+                                        maxlength="19"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                    >
+                                    @error('card_number')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Cardholder Name -->
+                                <div>
+                                    <label for="card_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Cardholder Name
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="card_name" 
+                                        name="card_name" 
+                                        placeholder="John Doe"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                    >
+                                    @error('card_name')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Expiry and CVV -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="card_expiry" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Expiry Date
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            id="card_expiry" 
+                                            name="card_expiry" 
+                                            placeholder="MM/YY"
+                                            maxlength="5"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                        >
+                                        @error('card_expiry')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        <label for="card_cvv" class="block text-sm font-medium text-gray-700 mb-2">
+                                            CVV
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            id="card_cvv" 
+                                            name="card_cvv" 
+                                            placeholder="123"
+                                            maxlength="4"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                        >
+                                        @error('card_cvv')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <!-- Security Note -->
+                                <div class="flex items-start gap-2 pt-2">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                    <p class="text-xs text-gray-500">Your payment information is secure and encrypted</p>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Total -->
                         <div class="border-t border-gray-200 pt-4 mb-6">
                             <div class="flex justify-between items-center mb-2">
@@ -101,7 +187,7 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+                        <button type="submit" id="submit-payment" class="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
                             Complete Payment
                         </button>
 
@@ -113,5 +199,85 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Get fresh CSRF token from meta tag
+        function updateCsrfToken() {
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            if (token) {
+                const csrfInput = document.querySelector('input[name="_token"]');
+                if (csrfInput) {
+                    csrfInput.value = token;
+                }
+            }
+        }
+
+        // Show/hide card form based on payment method selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardForm = document.getElementById('card-form');
+            const paymentRadios = document.querySelectorAll('.payment-radio');
+            
+            function toggleCardForm() {
+                const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
+                if (selectedMethod === 'card') {
+                    cardForm.style.display = 'block';
+                    // Make card fields required
+                    document.getElementById('card_number').required = true;
+                    document.getElementById('card_name').required = true;
+                    document.getElementById('card_expiry').required = true;
+                    document.getElementById('card_cvv').required = true;
+                } else {
+                    cardForm.style.display = 'none';
+                    // Remove required from card fields
+                    document.getElementById('card_number').required = false;
+                    document.getElementById('card_name').required = false;
+                    document.getElementById('card_expiry').required = false;
+                    document.getElementById('card_cvv').required = false;
+                }
+            }
+            
+            // Add event listeners
+            paymentRadios.forEach(radio => {
+                radio.addEventListener('change', toggleCardForm);
+            });
+            
+            // Initial state
+            toggleCardForm();
+            
+            // Format card number with spaces
+            const cardNumberInput = document.getElementById('card_number');
+            cardNumberInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            });
+            
+            // Format expiry date
+            const cardExpiryInput = document.getElementById('card_expiry');
+            cardExpiryInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+            
+            // Only allow numbers for CVV
+            const cardCvvInput = document.getElementById('card_cvv');
+            cardCvvInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            });
+            
+            // Update CSRF token on page load
+            updateCsrfToken();
+            
+            // Handle form submission
+            const paymentForm = document.getElementById('payment-form');
+            paymentForm.addEventListener('submit', function(e) {
+                // Ensure CSRF token is up to date
+                updateCsrfToken();
+            });
+        });
+    </script>
 </x-app-layout>
 

@@ -7,6 +7,7 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class ReservationController extends Controller
 {
@@ -41,7 +42,8 @@ class ReservationController extends Controller
 
         session(['booking_data' => $bookingData]);
 
-        return redirect()->route('payment.show', $hotel);
+        // Use direct URL to avoid route cache issues
+        return redirect("/hotels/{$hotel->id}/payment");
     }
 
     public function showPayment(Hotel $hotel)
@@ -68,9 +70,19 @@ class ReservationController extends Controller
                 ->with('error', 'Booking session expired. Please try again.');
         }
 
-        $request->validate([
+        $rules = [
             'payment_method' => ['required', 'string', 'in:card,cash'],
-        ]);
+        ];
+
+        // Add card validation if payment method is card
+        if ($request->payment_method === 'card') {
+            $rules['card_number'] = ['required', 'string', 'regex:/^[0-9\s]{13,19}$/'];
+            $rules['card_name'] = ['required', 'string', 'max:255'];
+            $rules['card_expiry'] = ['required', 'string', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'];
+            $rules['card_cvv'] = ['required', 'string', 'regex:/^\d{3,4}$/'];
+        }
+
+        $request->validate($rules);
 
         // For demo purposes, we'll simulate payment success
         // In production, integrate with Stripe/PayPal here
@@ -78,7 +90,7 @@ class ReservationController extends Controller
         $paymentMethod = $request->payment_method;
 
         // Create reservation
-        $reservation = Reservation::create([
+        $reservationData = [
             'user_id' => Auth::id(),
             'hotel_id' => $hotel->id,
             'check_in' => $bookingData['check_in'],
@@ -86,10 +98,17 @@ class ReservationController extends Controller
             'guests' => $bookingData['guests'],
             'total_price' => $bookingData['total_price'],
             'status' => 'confirmed',
-            'payment_status' => $paymentStatus,
-            'payment_method' => $paymentMethod,
-            'paid_at' => now(),
-        ]);
+        ];
+
+        // Add payment fields if columns exist (migration has been run)
+        $schema = Schema::getColumnListing('reservations');
+        if (in_array('payment_status', $schema)) {
+            $reservationData['payment_status'] = $paymentStatus;
+            $reservationData['payment_method'] = $paymentMethod;
+            $reservationData['paid_at'] = now();
+        }
+
+        $reservation = Reservation::create($reservationData);
 
         // Clear booking session
         session()->forget('booking_data');
